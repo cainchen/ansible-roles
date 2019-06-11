@@ -1,11 +1,7 @@
 **用途：** 新增與刪除 ldap 帳戶，可一次新增與刪除多個 ldap 帳號
 
-**限制：** 適用於 itzxa 內部 ldap server, 如果要引用到其他外部使用，需要修改 defaults/main.yml 等內容
-
 **預設值：**
 >使用此 ansible role 建立的 ldap 帳戶，預設密碼為 ***password***
-
->ldap server 為 ***ldap.itzxa.local:389***
 
 **操作步驟：** 
 
