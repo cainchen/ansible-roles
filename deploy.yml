@@ -4,6 +4,6 @@
   sudo: yes
   vars:
     ha: ha
-    res_name: null
+    res_name:
   roles:
     - { role: roles/high-availability }

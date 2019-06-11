@@ -1,7 +1,7 @@
 ---
 - name: "Import variable file"
   poll: 0
-  include_vars: "../vars/resources.yml"
+  include_vars: "../vars/{{ res_name|default('res_default') }}.yml"
 
 - name: "Create HA for the first time"
   block:

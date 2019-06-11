@@ -1,0 +1,10 @@
+---
+res_vip_name: nginx-vip
+
+res_vip_addr: 192.168.43.80
+
+res_svc_name: nginx_svc
+
+res_daemon: nginx
+
+res_group: nginx
