@@ -2,19 +2,8 @@
 - hosts: "{{ hosts }}"
   remote_user: cainchen
   sudo: yes
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-  roles:
-    - { role: ldap-entry }
-=======
->>>>>>> a108f735ef23b53668edc6b9259c6684fd2705b5
   vars:
     ha: ha
     res_name: null
   roles:
     - { role: roles/high-availability }
-<<<<<<< HEAD
-=======
->>>>>>> a4418e1fe5c499d17861462f1ba9adb748a4625b
->>>>>>> a108f735ef23b53668edc6b9259c6684fd2705b5

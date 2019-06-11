@@ -5,28 +5,16 @@
 
 - name: "Use to create HA for the first time"
   block:
-<<<<<<< HEAD
-    - include: ha_centos7.yml
-=======
     - include: ha-centos7.yml
->>>>>>> a108f735ef23b53668edc6b9259c6684fd2705b5
       when:
-        - ansible_distribution == '{{ ansible_distribution }}'
+        - ansible_distribution == CentOS 
         - ansible_distribution_major_version == '7'
         - ha == 'ha'
 
 #- name: "Use for adding extra node into the existing HA"
 #  block:
-<<<<<<< HEAD
-#    - include: ha_ext_centos7.yml
-#      when:
-#        - ansible_distribution == '{{ ansible_distribution }}'
-#        - ansible_distribution_major_version == '7'
-#        - ha == 'ha_ext'
-=======
 #   - include: ha-ext-centos7.yml
 #      when:
-#        - ansible_distribution == '{{ ansible_distribution }}'
+#        - ansible_distribution == CentOS
 #        - ansible_distribution_major_version == '7'
 #        - ha == 'ha-ext'
->>>>>>> a108f735ef23b53668edc6b9259c6684fd2705b5
