@@ -3,7 +3,8 @@
   remote_user: cainchen
   sudo: yes
   vars:
-    ha: ha
-    res_name:
+    #ha: ap
+    ha: aa
+    res_name: res_nginx
   roles:
     - { role: roles/high-availability }

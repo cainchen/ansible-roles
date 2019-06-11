@@ -1,10 +1,14 @@
 ---
 res_vip_name: nginx-vip
 
-res_vip_addr: 192.168.43.80
+res_vip_1st: 192.168.43.101
 
-res_svc_name: nginx_svc
+res_vip_2nd: 192.168.43.102
+
+res_svc_name: nginx-svc
 
 res_daemon: nginx
 
-res_group: nginx
+res_daemon_conf: /etc/nginx/nginx.conf
+
+res_gp_name: nginx-gp

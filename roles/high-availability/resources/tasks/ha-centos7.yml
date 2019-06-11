@@ -1,14 +1,10 @@
 ---
-- name: "Import variable file"
-  poll: 0
-  include_vars: "../vars/resources.yml"
-
 - name: "Deploy pcs resurce to the master node"
   any_errors_fatal: true
   poll: 0
   template: "{{ item }}"
   with_items:
-    - { src: "../templates/resources.sh.j2" , dest: "/opt/resources.sh" }
+    - { src: "../templates/{{ res_name }}.sh.j2" , dest: "/opt/{{ res_name }}.sh" }
   register: res_deploy
   failed_when: res_deploy.state != 'file'
   when: node == 1
@@ -16,7 +12,7 @@
 - name: "Define the cluster resource setting on the master node"
   any_errors_fatal: true
   poll: 0
-  shell: "sh /opt/resources.sh"
+  shell: "sh /opt/{{ res_name }}.sh"
   register: res_apply
   failed_when: res_apply.rc != 0
   when: node == 1
@@ -24,13 +20,13 @@
 - pause:
     seconds: 5
 
-- name: "Check the cluster vip is effective"
-  any_errors_fatal: true
-  poll: 0
-  shell: "ping {{ res_vip_addr }} -c 5"
-  register: ping_check
-  failed_when: ping_check.rc != 0
-  when: node == 1
+#- name: "Check the cluster vip is effective"
+#  any_errors_fatal: true
+#  poll: 0
+#  shell: "ping {{ res_vip_addr }} -c 5"
+#  register: ping_check
+#  failed_when: ping_check.rc != 0
+#  when: node == 1
 
 - name: "Check all of the resources are started"
   any_errors_fatal: true
@@ -38,14 +34,14 @@
   shell: "pcs status | grep -w {{ item }} | grep -i started"
   with_items:
     - "{{ res_vip_name }}"
-#    - "{{ res_svc_name }}"
+    - "{{ res_svc_name }}"
   register: res_check
   failed_when: res_check.rc != 0
 
 - name: "Remove materials"
   any_errors_fatal: true
   poll: 0
-  shell: "rm -rf /opt/resources.sh"
+  shell: "rm -rf /opt/{{ res_name }}.sh"
   register: remove
   failed_when: remove.rc != 0
   when: node == 1

@@ -3,9 +3,9 @@
   include_role:
     name: "{{ role_name }}/{{ sub_roles }}"
   with_items:
-    - system-init
-    - gluster
-    - pacemaker
+    #- system-init
+    #- gluster
+    #- pacemaker
     - resources
   loop_control:
     loop_var: sub_roles

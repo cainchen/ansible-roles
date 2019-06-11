@@ -1,0 +1,23 @@
+#!/usr/bin/evn bash
+{% if ha == 'ap' %}
+pcs property set stonith-enabled=false
+pcs property set no-quorum-policy=ignore
+pcs resource create {{ res_vip_name }}1 ocf:heartbeat:IPaddr ip="{{ res_vip_1st }}" op monitor interval=5s timeout=3s
+pcs resource create {{ res_svc_name }}1 ocf:heartbeat:{{ res_daemon }} configfile={{ res_daemon_conf }} op monitor interval=5s timeout=3s
+pcs resource group add {{ res_gp_name }}1 {{ res_vip_name }}1 {{ res_svc_name }}1
+pcs constraint order start {{ res_vip_name }}1 then {{ res_svc_name }}1
+pcs constraint location '{{ res_gp_name }}1' prefers {{ ansible_play_hosts[0] }}
+{% elif ha == 'aa' %}
+pcs property set stonith-enabled=false
+pcs property set no-quorum-policy=ignore
+pcs resource create {{ res_vip_name }}1 ocf:heartbeat:IPaddr ip="{{ res_vip_1st }}" op monitor interval=5s timeout=3s
+pcs resource create {{ res_vip_name }}2 ocf:heartbeat:IPaddr ip="{{ res_vip_2nd }}" op monitor interval=5s timeout=3s
+pcs resource create {{ res_svc_name }}1 ocf:heartbeat:{{ res_daemon }} configfile={{ res_daemon_conf }} op monitor interval=5s timeout=3s
+pcs resource create {{ res_svc_name }}2 ocf:heartbeat:{{ res_daemon }} configfile={{ res_daemon_conf }} op monitor interval=5s timeout=3s
+pcs resource group add {{ res_gp_name }}1 {{ res_vip_name }}1 {{ res_svc_name }}1
+pcs resource group add {{ res_gp_name }}2 {{ res_vip_name }}2 {{ res_svc_name }}2
+pcs constraint order start {{ res_vip_name }}1 then {{ res_svc_name }}1
+pcs constraint order start {{ res_vip_name }}2 then {{ res_svc_name }}2
+pcs constraint location '{{ res_gp_name }}1' prefers {{ ansible_play_hosts[0] }}
+pcs constraint location '{{ res_gp_name }}2' prefers {{ ansible_play_hosts[1] }}
+{% endif %}
