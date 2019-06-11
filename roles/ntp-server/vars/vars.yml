@@ -1,0 +1,6 @@
+---
+ntp_server:
+  - tock.stdtime.gov.tw
+  - watch.stdtime.gov.tw
+  - time.stdtime.gov.tw
+  - 127.127.1.0

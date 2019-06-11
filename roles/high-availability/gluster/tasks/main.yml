@@ -1,0 +1,20 @@
+---
+- name: "Import variable file"
+  poll: 0
+  include_vars: "../vars/gluster.yml"
+
+- name: "Use to create HA for the first time"
+  block:
+    - include: ha_centos7.yml
+      when:
+        - ansible_distribution == '{{ ansible_distribution }}'
+        - ansible_distribution_major_version == '7'
+        - ha == 'ha'
+
+#- name: "Use for adding extra node into the existing HA"
+#  block:
+#    - include: ha_ext_centos7.yml
+#      when:
+#        - ansible_distribution == '{{ ansible_distribution }}'
+#        - ansible_distribution_major_version == '7'
+#        - ha == 'ha_ext'

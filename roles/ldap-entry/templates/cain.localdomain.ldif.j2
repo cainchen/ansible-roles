@@ -1,0 +1,18 @@
+{% for i in users %}
+dn: cn={{ i.cn }},cn=itops,ou=itgroup,dc=cain,dc=localdomain
+cn: {{ i.cn }}
+gidnumber: 500
+givenname: {{ i.gn }}
+homedirectory: /home/{{ i.cn }}
+loginshell: /bin/bash
+mail: {{ i.email }}
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: top
+sn: {{ i.sn }}
+title: common user
+uid: {{ i.cn }}
+uidnumber: {{ i.uidnum }}
+userpassword: {{ i.pwd }}
+
+{% endfor %}

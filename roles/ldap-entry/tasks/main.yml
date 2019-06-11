@@ -1,0 +1,8 @@
+---
+- name: "Run the ldap entry adding task"
+  include: ldap-entry-add.yml
+  when: job == 'add'
+
+- name: "Run the ldap entry removing task"
+  include: ldap-entry-absent.yml
+  when: job == 'absent'

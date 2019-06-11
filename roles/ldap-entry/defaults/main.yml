@@ -1,0 +1,34 @@
+---
+job: none
+ldif_temp: "cain.localdomain.ldif.j2"
+
+ldapserver: 192.168.43.165:389
+serveruri: "ldap://{{ ldapserver }}"
+dn: "{{ cn }},{{ ou }},{{ dc }}"
+dc: "dc=cain,dc=localdomain"
+ou: "ou=itgroup"
+cn: "cn=itops"
+binddn: "cn=admin,{{ dc }}"
+bindpw: "password"
+
+# // Below are adding the entry of ldap
+users:
+
+- cn: danlu
+  gn: dan
+  sn: lu
+  email: dan.abc@gmail.com
+  uidnum: "{{ uidnumber.0 }}"
+  pwd: "{MD5}X03MO1qnZdYdgyfeuILPmQ=="
+
+- cn: jjlee
+  gn: jj
+  sn: lee
+  email: jj3_lee@hotmail.com
+  uidnum: "{{ uidnumber.1 }}"
+  pwd: "{MD5}X03MO1qnZdYdgyfeuILPmQ=="
+
+# // Below are remove the entry of ldap
+absent_users:
+  - danlu
+  - jjlee
