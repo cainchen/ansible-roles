@@ -1,7 +1,11 @@
 ---
 - name: "Set fact"
   block:
+<<<<<<< HEAD
     - set_fact: ansible_current_gp="{{ groups['centos7'] }}"
+=======
+    - set_fact: ansible_current_gp="{{ groups['bctomcat'] }}"
+>>>>>>> a108f735ef23b53668edc6b9259c6684fd2705b5
 
 - name: "Install packages"
   any_errors_fatal: true

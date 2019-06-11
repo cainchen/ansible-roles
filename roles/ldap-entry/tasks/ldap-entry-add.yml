@@ -1,5 +1,9 @@
 ---
+<<<<<<< HEAD
 - name: Get all the existing uid
+=======
+- name: "Get all the existing uid"
+>>>>>>> a108f735ef23b53668edc6b9259c6684fd2705b5
   any_errors_fatal: true
   shell: "ldapsearch -h {{ ldapserver }} -x -D {{ binddn }} -w {{ bindpw }} -b {{ dn }} \
           | grep -i 'uidnumber'|cut -d ' ' -f 2"
@@ -12,7 +16,11 @@
 
 - name: "Create array for uidrange"
   set_fact:
+<<<<<<< HEAD
     uidrange: "[{% for index in range(1200,1500) %}'{{ index }}',{% endfor %}]"
+=======
+    uidrange: "[{% for index in range(1200,1300) %}'{{ index }}',{% endfor %}]"
+>>>>>>> a108f735ef23b53668edc6b9259c6684fd2705b5
 
 - name: "Set uidnumber of uidrange difference uidfact"
   set_fact:
@@ -21,6 +29,7 @@
 - name: "Create a template file of ldap entry ldif file"
   template:
     src: "templates/{{ ldif_temp }}"
+<<<<<<< HEAD
     dest: "/tmp/{{ldif_temp|regex_replace(".*/","")|regex_replace("\.j2$","")}}"
 
 - name: "Import new ldap entry data to ldap server"
@@ -34,3 +43,27 @@
   any_errors_fatal: true
   shell: id jjlee
   delegate_to: 192.168.43.166
+=======
+    dest: /tmp/{{ldif_temp|regex_replace(".*/","")|regex_replace("\.j2$","")}}
+
+- name: "Import new ldap entry data to ldap server"
+  any_errors_fatal: true
+  shell: ldapadd -h {{ ldapserver }} -x -c -D {{ binddn }} -w {{ bindpw }} \
+          -f /tmp/{{ldif_temp|regex_replace(".*/","")|regex_replace("\.j2$","")}}
+  register: import
+  failed_when: import.rc != 0
+
+- name: "Get all the new account's cn"
+  any_errors_fatal: true
+  shell: cat /tmp/{{ldif_temp|regex_replace(".*/","")|regex_replace("\.j2$","")}}
+         | grep -i 'cn:'|cut -d ' ' -f 2
+  register: newcn
+  failed_when: newcn.rc != 0
+
+- name: "Verify new ldap entry has been added"
+  any_errors_fatal: true
+  shell: "id {{ item }}"
+  with_items:
+    - "{{ newcn.stdout_lines }}"
+  delegate_to: 192.168.1.10
+>>>>>>> a108f735ef23b53668edc6b9259c6684fd2705b5
