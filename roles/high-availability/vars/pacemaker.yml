@@ -1,0 +1,6 @@
+---
+ha_pass: HApassworD
+
+ha_id: my-ha
+
+ha_hostname: my-ha

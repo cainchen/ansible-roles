@@ -1,0 +1,14 @@
+---
+- hosts: "{{ hosts }}"
+  remote_user: cainchen
+  sudo: yes
+<<<<<<< HEAD
+  roles:
+    - { role: ldap-entry }
+=======
+  vars:
+    ha: ha
+    res_name: null
+  roles:
+    - { role: roles/high-availability }
+>>>>>>> a4418e1fe5c499d17861462f1ba9adb748a4625b

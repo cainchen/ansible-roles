@@ -1,0 +1,11 @@
+---
+- name: "Calling sub roles"
+  include_role:
+    name: "{{ role_name }}/{{ sub_roles }}"
+  with_items:
+    #    - system_init
+    #    - gluster
+    #    - pacemaker
+     - resources
+  loop_control:
+    loop_var: sub_roles

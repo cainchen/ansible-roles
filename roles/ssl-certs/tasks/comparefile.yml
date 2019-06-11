@@ -1,0 +1,22 @@
+---
+  - name: Get the .key .csr .crt their md5 values
+    poll: 0
+    shell: |
+      openssl rsa -noout -modulus -in "{{ ssl_certs_key_path }}" |md5sum |cut -d " " -f 1 > "{{ playbook_dir }}"/keymd5
+      openssl req -noout -modulus -in "{{ ssl_certs_csr_path }}" |md5sum |cut -d " " -f 1 > "{{ playbook_dir }}"/csrmd5
+      openssl x509 -noout -modulus -in "{{ ssl_certs_crt_path }}" |md5sum |cut -d " " -f 1 > "{{ playbook_dir }}"/crtmd5
+
+  - name: Compare .key .csr .crt consistency
+    poll: 0
+    shell: |
+      diff3 "{{ playbook_dir }}"/keymd5 "{{ playbook_dir }}"/csrmd5 "{{ playbook_dir }}"/crtmd5| wc -l
+      rm -f "{{ playbook_dir }}"/*md5
+    register: file_diff
+
+  - name: Failed and clean up all the generated files
+    poll: 0
+    shell: |
+      echo "Compared failed!! Clean all the generated files."
+      rm -r "{{ playbook_dir }}"/*md5
+      rm -rf "{{ playbook_dir }}"/"{{ ssl_certs_path }}"
+    when: file_diff.stdout != '0'

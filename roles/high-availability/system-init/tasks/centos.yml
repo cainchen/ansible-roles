@@ -1,0 +1,41 @@
+---
+- name: "Set fact"
+  block:
+    - set_fact: ansible_current_gp="{{ groups['bctomcat'] }}"
+
+- name: "Install packages"
+  any_errors_fatal: true
+  poll: 0
+  shell: "{{ item }}"
+  with_items:
+    - yum install -y nc
+    - yum install -y ntpdate
+  register: packages_install
+  failed_when: packages_install.rc != 0
+
+- name: "Set up every 5 minutes doing sync time"
+  poll: 0
+  cron:
+    name: "sync time"
+    minute: "*/5"
+    job: "/usr/sbin/ntpdate {{ time_server }} &> /dev/null"
+
+- name: "Add hostname and IP address mapping into the /etc/hosts in each node"
+  poll: 0
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{ hostvars[item]['ansible_nodename'] }}"
+  with_items:
+    - "{{ ansible_current_gp }}"
+
+- name: "Check the /etc/hosts is effective"
+  any_errors_fatal: true
+  poll: 0
+  shell: ping "{{ hostvars[item]['ansible_nodename'] }}" -c 4
+  with_items: "{{ ansible_current_gp }}"
+  register: ping_check
+  failed_when: ping_check.rc != 0
+
+- name: "Freed target's memory usage"
+  poll: 0
+  shell: sync ; echo 3 > /proc/sys/vm/drop_caches

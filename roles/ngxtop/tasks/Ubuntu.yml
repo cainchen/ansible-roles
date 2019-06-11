@@ -1,0 +1,37 @@
+---
+- name: Check python install
+  any_errors_fatal: true
+  poll: 0
+  shell: "{{ item }}"
+  with_items:
+    - python2 -V
+    - python3 -V
+  register: py_check
+  failed_when: py_check.rc != 0
+
+- name: Check pip install
+  any_errors_fatal: true
+  poll: 0
+  shell: "{{ item }}"
+  with_items:
+    - pip -V
+  register: pip_check
+  failed_when: pip_check.rc != 0
+
+- name: Install ngxtop
+  any_errors_fatal: true
+  block:
+    - copy:
+        src: files/ngxtop/
+        dest: /opt/ngxtop/
+    - shell: pip install /opt/ngxtop/.
+      ignore_errors: true
+    - shell: ngxtop --version
+      register: check
+      failed_when: check.rc != 0
+
+- name: Clean up /opt/ngxtop
+  any_errors_fatal: true
+  shell: rm -rf /opt/ngxtop
+  register: cleanup
+  failed_when: cleanup.rc != 0
