@@ -20,10 +20,8 @@ pcs resource create {{ res_vip_name }}2 ocf:heartbeat:IPaddr ip="{{ res_vip_2nd 
 pcs resource create {{ res_svc_name }}1 ocf:heartbeat:docker image={{ docker_image }} op monitor interval=5s timeout=3s
 pcs resource create {{ res_svc_name }}2 ocf:heartbeat:docker image={{ docker_image }} op monitor interval=5s timeout=3s
   {% else %}
-#pcs resource create {{ res_svc_name }}1 systemd:{{ res_daemon }} configfile={{ res_daemon_conf }} op monitor interval=5s timeout=3s
-pcs resource create {{ res_svc_name }}1 systemd:{{ res_daemon }} op monitor interval=5s timeout=3s
-#pcs resource create {{ res_svc_name }}2 systemd:{{ res_daemon }} configfile={{ res_daemon_conf }} op monitor interval=5s timeout=3s
-pcs resource create {{ res_svc_name }}2 systemd:{{ res_daemon }}  op monitor interval=5s timeout=3s
+pcs resource create {{ res_svc_name }}1 ocf:heartbeat:{{ res_daemon }} configfile={{ res_daemon_conf }} op monitor interval=5s timeout=3s
+pcs resource create {{ res_svc_name }}2 ocf:heartbeat:{{ res_daemon }} configfile={{ res_daemon_conf }} op monitor interval=5s timeout=3s
   {% endif %}
 pcs resource group add {{ res_gp_name }}1 {{ res_vip_name }}1 {{ res_svc_name }}1
 pcs resource group add {{ res_gp_name }}2 {{ res_vip_name }}2 {{ res_svc_name }}2

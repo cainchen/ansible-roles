@@ -42,4 +42,4 @@
   shell: "id {{ item }}"
   with_items:
     - "{{ newcn.stdout_lines }}"
-  delegate_to: 192.168.43.10
+  delegate_to: 192.168.1.10

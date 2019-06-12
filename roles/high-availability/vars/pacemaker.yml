@@ -1,6 +1,6 @@
 ---
 ha_pass: HApassworD
 
-ha_id: my-ha
+ha_id: bcproxy-ha
 
-ha_hostname: my-ha
+ha_hostname: bcproxy-ha

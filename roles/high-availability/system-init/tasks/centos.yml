@@ -1,7 +1,7 @@
 ---
 - name: "Set fact"
   block:
-    - set_fact: ansible_current_gp="{{ groups['centos7'] }}"
+    - set_fact: ansible_current_gp="{{ groups['bcproxy'] }}"
 
 - name: "Install packages"
   any_errors_fatal: true

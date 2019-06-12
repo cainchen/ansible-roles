@@ -41,7 +41,7 @@
   poll: 0
   template: "{{ item }}"
   with_items:
-    - { src: "../templates/fdisk.sh.j2" ,  dest: "/tmp/fdisk.sh" }
+    - { src: "./templates/fdisk.sh.j2" ,  dest: "/tmp/fdisk.sh" }
   register: fdisk_sh
   failed_when: fdisk_sh.state != 'file'
 

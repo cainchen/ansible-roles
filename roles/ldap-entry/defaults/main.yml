@@ -1,15 +1,15 @@
 ---
 job: none
-ldif_temp: "cain.localdomain.ldif.j2"
+ldif_temp: "itzxa.ldif.j2"
 
-ldapserver: 192.168.43.165:389
+ldapserver: ldap.itzxa.local:389
 serveruri: "ldap://{{ ldapserver }}"
 dn: "{{ cn }},{{ ou }},{{ dc }}"
-dc: "dc=cain,dc=localdomain"
+dc: "dc=itzxa,dc=local"
 ou: "ou=itgroup"
 cn: "cn=itops"
 binddn: "cn=admin,{{ dc }}"
-bindpw: "password"
+bindpw: "Zxa82813011@"
 
 # // Below are adding the entry of ldap
 users:

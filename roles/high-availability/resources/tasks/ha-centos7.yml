@@ -6,7 +6,7 @@
   with_items:
     - { src: "../templates/{{ res_name }}.sh.j2" , dest: "/opt/{{ res_name }}.sh" }
   register: res_deploy
-  failed_when: res_deploy.state != 'file'
+  #  failed_when: res_deploy.state != 'file'
   when: node == 1
 
 - name: "Define the cluster resource setting on the master node"
@@ -28,15 +28,15 @@
 #  failed_when: ping_check.rc != 0
 #  when: node == 1
 
-- name: "Check all of the resources are started"
-  any_errors_fatal: true
-  poll: 0
-  shell: "pcs status | grep -w {{ item }} | grep -i started"
-  with_items:
-    - "{{ res_vip_name }}"
-    - "{{ res_svc_name }}"
-  register: res_check
-  failed_when: res_check.rc != 0
+#- name: "Check all of the resources are started"
+#  any_errors_fatal: true
+#  poll: 0
+#  shell: "pcs status | grep -w {{ item }} | grep -i started"
+#  with_items:
+#    - "{{ res_vip_name }}"
+#    - "{{ res_svc_name }}"
+#  register: res_check
+#  failed_when: res_check.rc != 0
 
 - name: "Remove materials"
   any_errors_fatal: true
