@@ -1,0 +1,27 @@
+---
+- name: "Set fact"
+  block:
+    - set_fact: shfile=slack-dns.sh.j2
+      when: dns == 'yes'
+
+- name: "Create the new folder" 
+  any_errors_fatal: true
+  poll: 0
+  file:
+    path: /opt/script
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+
+- name: "Copy files to target hosts from the Ansible server"
+  any_errors_fatal: true
+  poll: 0
+  template:
+    src: "templates/{{ shfile }}"
+    dest: /opt/script/slack.sh
+    owner: root
+    group: root
+    mode: 0775
+    newline_sequence: '\n'
+    force: yes

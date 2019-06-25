@@ -7,4 +7,4 @@
     ha: aa
     res_name: res_nginx
   roles:
-    - { role: roles/high-availability }
+    - { role: roles/ops/account-add }

@@ -1,0 +1,14 @@
+---
+res_vip_name: nginx-vip
+
+res_vip_1st: 192.168.1.91
+
+res_vip_2nd: 192.168.1.92
+
+res_svc_name: nginx-svc
+
+res_daemon: nginx 
+
+res_daemon_conf: /opt/blockchain/conf/nginx_conf/nginx.conf
+
+res_gp_name: nginx-gp

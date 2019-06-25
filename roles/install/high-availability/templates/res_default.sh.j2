@@ -1,0 +1,11 @@
+#!/usr/bin/evn bash
+pcs property set stonith-enabled=false
+pcs property set no-quorum-policy=ignore
+pcs resource create {{ res_vip_name }} ocf:heartbeat:IPaddr ip="{{ res_vip_addr }}" op monitor interval=5s timeout=3s
+{% if res_name == 'res_nginx' %}
+pcs resource create {{ res_svc_name }} ocf:heartbeat:{{ res_daemon }} configfile={{ res_config }} op monitor interval=5s timeout=3s
+{% endif %}
+#pcs resource group add {{ res_group }} {{ res_vip_name }} {{ res_svc_name }}
+pcs resource group add {{ res_group }} {{ res_vip_name }}
+#pcs constraint order start {{ res_vip_name }} then {{ res_svc_name }}
+pcs constraint location {{ res_vip_name }} prefers {{ ansible_play_hosts[0] }}

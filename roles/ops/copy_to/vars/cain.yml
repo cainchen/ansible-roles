@@ -1,0 +1,5 @@
+---
+slack_webhook: <my_slack_webhook_url> 
+slack_channel: '<#my_slack_channel>'
+
+server_reboot_event: init_params ${@}\\n{{ inventory_hostname }} have been reboot\\nlast reboot info:\\n$(last reboot | head -n 1)

@@ -1,0 +1,51 @@
+---
+- name: "Create a password for the new user account"
+  any_errors_fatal: true
+  poll: 0
+  shell: command openssl passwd -salt '2018model' -1 PassWord 
+  register: password
+  failed_when: password.rc != 0
+
+- name: "Create new user account"
+  any_errors_fatal: true
+  poll: 0
+  user:
+    name: "{{ item }}"
+    password: "{{ password.stdout }}"
+    create_home: true
+#    shell: /bin/bash
+    comment: Created by Ansible
+    state: present
+  with_items:
+    - "{{ account }}"
+  register: user_create
+  failed_when: user_create.state != 'present'
+
+- name: "Adding SSH public key for the new account"
+  any_errors_fatal: true
+  poll: 0
+  authorized_key:
+    user: "{{ item }}"
+    key: "{{ lookup('file', 'files/'+ item + '.pub') }}"
+  with_items: "{{ account }}"
+
+- name: "Let new account can promote permission via sudo and bypass password"
+  any_errors_fatal: true
+  block:
+    - shell: touch /etc/sudoers.d/sudo
+      register: sudo_create
+      failed_when: sudo_create.rc != 0
+    - lineinfile:
+        dest: /etc/sudoers.d/sudo
+        line: "{{ item }} ALL=(ALL:ALL) NOPASSWD:ALL"
+      with_items:
+        - "{{ account }}"
+
+- name: "Check new account in sudo file"
+  any_errors_fatal: true
+  poll: 0
+  shell: "grep -i -w '{{ item }}' /etc/sudoers.d/sudo | wc -l"
+  with_items:
+    - "{{ account }}"
+  register: sudo_check
+  failed_when: sudo_check.stdout != '1'

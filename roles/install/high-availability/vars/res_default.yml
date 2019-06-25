@@ -1,0 +1,10 @@
+---
+res_vip_name: my-vip
+
+res_vip_addr: 192.168.43.81
+
+res_svc_name: null
+
+res_daemon: null
+
+res_group: my-ha-group

@@ -1,0 +1,16 @@
+---
+- name: "Set fact"
+  poll: 0
+  set_fact: inventory="{{ inventory_file.split('/')[-1] }}"
+
+- name: "Import variable file"
+  poll: 0
+  include_vars: "{{ inventory }}.yml"
+
+- name: "Run tasks based on the types of operating system"
+  block:
+    - include: centos.yml
+      when: ansible_distribution == 'CentOS'
+
+#    - include: ubuntu.yml
+#      when: ansible_distribution == 'Ubuntu'

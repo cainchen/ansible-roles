@@ -1,0 +1,11 @@
+---
+- name: "Import variable file"
+  poll: 0
+  include_vars: "../vars/system-init.yml"
+
+- name: "Run tasks based on the types and versions of operating system"
+  block:
+    - include: centos.yml
+      when:
+        - ansible_distribution == 'CentOS'
+        - ansible_distribution_major_version == '7'
