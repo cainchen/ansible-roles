@@ -1,5 +1,0 @@
----
-- name: "Runnig major task depending on the operating system"
-  poll: 0
-  include: "{{ ansible_distribution }}.yml"
-  when: ansible_distribution == "{{ ansible_distribution }}"

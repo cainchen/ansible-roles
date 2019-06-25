@@ -1,9 +1,0 @@
----
-- name: "Import variable file"
-  poll: 0
-  include_vars: "./ntp-server/vars/vars.yml"
-
-- name: "Run tasks based on the types of operating system"
-  block:
-    - include: CentOS.yml
-      when: ansible_distribution == "{{ ansible_distribution }}"
